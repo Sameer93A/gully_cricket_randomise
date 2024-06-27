@@ -4,6 +4,7 @@ import { InputBox } from "./components/InputBox";
 import { PlayerBox } from "./components/PlayerBox";
 import { Submit } from "./components/Submit";
 import axios from "axios";
+import { RenderData } from "./components/RenderData";
 
 function App() {
   const [firstCaptainName, setFirstCaptainName] = useState("");
@@ -11,12 +12,19 @@ function App() {
   const [playerName, setPlayerName] = useState("");
 
   async function handleSubmit() {
+    const playerNamesArray = playerName.split(",").map((name) => name.trim());
     const data = {
       firstCaptain: firstCaptainName,
       secondCaptain: secondCaptainName,
-      playerName: [playerName],
+      playerName: playerNamesArray,
     };
-    const randomPlayer = await axios.post("/api/v1/captain", data);
+    console.log(data);
+
+    const randomPlayer = await axios.post(
+      "http://localhost:8787/api/v1/captain",
+      data
+    );
+    <RenderData dataFromBackend={randomPlayer} />;
   }
   return (
     <div>

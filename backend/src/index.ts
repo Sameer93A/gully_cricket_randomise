@@ -10,10 +10,10 @@ app.post("/api/v1/captain", async (c) => {
 
   const body = await c.req.json();
   const firstCaptainName = body.firstCaptain;
-  const secondCaptainName = body.SecondCaptain;
+  const secondCaptainName = body.secondCaptain;
   const playerName = body.playerName;
 
-  // Shuffle the playerName array to randomize player assignment
+  // Shuffle the playerName array to randomize player
   playerName.sort(() => Math.random() - 0.5);
 
   const teams = playerName.slice(0, Math.ceil(playerName.length / 2));
