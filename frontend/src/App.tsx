@@ -10,6 +10,7 @@ function App() {
   const [firstCaptainName, setFirstCaptainName] = useState("");
   const [secondCaptainName, setSecondCaptainName] = useState("");
   const [playerName, setPlayerName] = useState("");
+  const [randomPlayerData, setRandomPlayerData] = useState({});
 
   async function handleSubmit() {
     const playerNamesArray = playerName.split(",").map((name) => name.trim());
@@ -18,13 +19,12 @@ function App() {
       secondCaptain: secondCaptainName,
       playerName: playerNamesArray,
     };
-    console.log(data);
 
     const randomPlayer = await axios.post(
       "http://localhost:8787/api/v1/captain",
       data
     );
-    <RenderData dataFromBackend={randomPlayer} />;
+    setRandomPlayerData(randomPlayer.data);
   }
   return (
     <div>
@@ -53,6 +53,16 @@ function App() {
         placeholder="Enter player Name"
       ></PlayerBox>
       <Submit onClick={handleSubmit}></Submit>
+      {Object.keys(randomPlayerData).length > 0 && (
+        <div>
+          <h1>Random Player Names:</h1>
+          <ul>
+            {Object.keys(randomPlayerData).map((playerName, index) => (
+              <li key={index}>{playerName}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
