@@ -23,7 +23,7 @@ function App() {
 
     try {
       const randomPlayer = await axios.post(
-        "http://localhost:32821/api/v1/captain",
+        "http://localhost:44065/api/v1/captain",
         data
       );
       setRandomPlayerData(randomPlayer.data);
