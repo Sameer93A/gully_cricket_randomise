@@ -5,6 +5,7 @@ import { PlayerBox } from "./components/PlayerBox";
 import { Submit } from "./components/Submit";
 import axios from "axios";
 import { RenderData } from "./components/RenderData";
+import { TableRender } from "./components/TableRender";
 
 function App() {
   const [firstCaptainName, setFirstCaptainName] = useState("");
@@ -53,16 +54,7 @@ function App() {
         placeholder="Enter player Name"
       ></PlayerBox>
       <Submit onClick={handleSubmit}></Submit>
-      {Object.keys(randomPlayerData).length > 0 && (
-        <div>
-          <h1>Random Player Names:</h1>
-          <ul>
-            {Object.keys(randomPlayerData).map((playerName, index) => (
-              <li key={index}>{playerName}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <TableRender />
     </div>
   );
 }
