@@ -4,16 +4,16 @@ import { InputBox } from "./components/InputBox";
 import { PlayerBox } from "./components/PlayerBox";
 import { Submit } from "./components/Submit";
 import axios from "axios";
-import { RenderData } from "./components/RenderData";
 import { TableRender } from "./components/TableRender";
 
 function App() {
   const [firstCaptainName, setFirstCaptainName] = useState("");
   const [secondCaptainName, setSecondCaptainName] = useState("");
   const [playerName, setPlayerName] = useState("");
-  const [randomPlayerData, setRandomPlayerData] = useState({});
+  const [randomPlayerData, setRandomPlayerData] = useState(null);
 
   async function handleSubmit() {
+    // split take string convert them into an array
     const playerNamesArray = playerName.split(",").map((name) => name.trim());
     const data = {
       firstCaptain: firstCaptainName,
@@ -21,11 +21,15 @@ function App() {
       playerName: playerNamesArray,
     };
 
-    const randomPlayer = await axios.post(
-      "http://localhost:8787/api/v1/captain",
-      data
-    );
-    setRandomPlayerData(randomPlayer.data);
+    try {
+      const randomPlayer = await axios.post(
+        "http://localhost:32821/api/v1/captain",
+        data
+      );
+      setRandomPlayerData(randomPlayer.data);
+    } catch (error) {
+      console.error("Error fetching random player data:", error);
+    }
   }
   return (
     <div>
@@ -54,7 +58,7 @@ function App() {
         placeholder="Enter player Name"
       ></PlayerBox>
       <Submit onClick={handleSubmit}></Submit>
-      <TableRender />
+      {randomPlayerData && <TableRender randomPlayerData={randomPlayerData} />}
     </div>
   );
 }
